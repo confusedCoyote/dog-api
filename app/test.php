@@ -8,4 +8,11 @@ use DogTest\DogApi;
 
 $dogCeo = new DogApi();
 
-print_r($dogCeo->byBreed("Bulldog"));
+echo PHP_EOL . "ALL BREEDS JSON" . PHP_EOL;
+print_r($dogCeo->allBreeds()) . PHP_EOL;
+echo PHP_EOL . "RANDOM IMAGE" . PHP_EOL;
+echo $dogCeo->random() . PHP_EOL;
+echo PHP_EOL . "IMAGE OF A BREED" . PHP_EOL;
+echo $dogCeo->byBreed('pointer') . PHP_EOL;
+echo PHP_EOL . "IMAGE OF A SUB BREED" . PHP_EOL;
+echo $dogCeo->bySubBreed('german') . PHP_EOL;

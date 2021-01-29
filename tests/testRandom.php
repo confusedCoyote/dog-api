@@ -15,8 +15,7 @@ class testBreeds extends TestCase
     public function testAllBreedsReturns()
     {
         $dogCeo = new DogApi();
-        $data = json_decode($dogCeo->allBreeds(), true);
-        // May fail if breeds change
-        $this->assertArrayHasKey('affenpinscher', $data);
+        $data = $dogCeo->random();
+        $this->assertStringContainsString('http', $data);
     }
 }
