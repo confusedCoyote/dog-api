@@ -31,5 +31,5 @@ A RESTful API is available at [dog ceo](https://dog.ceo/) which will provide you
 
 ## Notes
 
-- Functions that return an image are only returned as a test link and *not* as an IMG tag. This then can be styled via CSS & inserted into a page
+- Functions that return an image are only returned as a text link and *not* as an IMG tag. This then can be styled via CSS & inserted into a page
 - Other data is returned as a JSON array than then can be handled via JavaScript / jQuery / PHP in a consistent way.

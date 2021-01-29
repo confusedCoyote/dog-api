@@ -118,5 +118,4 @@ class DogApi
         }
         return null;
     }
-
 }
