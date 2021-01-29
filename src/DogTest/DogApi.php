@@ -2,10 +2,16 @@
 
 namespace DogTest;
 
+/**
+ *  Class to run the Dog API.
+ *  All, except, allBreeds() will just return a url where allBreeds() will return a JSON array
+ * 
+ */
 class DogApi
 {
 
     /**
+     * Object that holds ALL the breeds, and sub-breeds, available
      *
      * @var object
      */
@@ -13,7 +19,7 @@ class DogApi
 
 
     /**
-     * On init, read all breeds
+     * On init, read all breeds into an object
      */
     public function __construct()
     {
@@ -23,6 +29,7 @@ class DogApi
     }
 
     /**
+     * What breeds, and sub-breeds are available
      *
      * @return JSON
      */
@@ -34,6 +41,7 @@ class DogApi
 
 
     /**
+     * Get a random dog image
      *
      * @return string
      */
@@ -50,13 +58,14 @@ class DogApi
 
 
     /**
+     * Get a random image's URL
      *
-     * @param  string $breed
-     * @return string
+     * @param  string $breed Breed requested
+     * @return string URL found
      */
     public function byBreed($breed)
     {
-        $breed = strtolower($breed);
+        $breed = strtolower($breed); // Has to be lower case otherwise we get a 404!
         $url = "https://dog.ceo/api/breed/" . $breed . "/images/random";
         $response = file_get_contents($url);
         $returnedResponse = json_decode($response);
@@ -69,12 +78,15 @@ class DogApi
 
 
     /**
+     * Grab a, random, image from a requested sub breed. This will only show one of the possible sub-breeds that
+     * could be found
      *
-     * @param string $subBreed
+     * @param string $subBreed Sub breed requested
+     * @return string URL found
      */
     public function bySubBreed($subBreed)
     {
-        $subBreed = strtolower($subBreed);
+        $subBreed = strtolower($subBreed); // Has to be lower case otherwise we get a 404!
         $getMainBreed = $this->searchJson($this->allBreedsObject, $subBreed);
         if ($getMainBreed == "") {
             return "ERROR: Breed not found";
@@ -87,7 +99,6 @@ class DogApi
         } else {
             return "ERROR: No image found";
         }
-        return json_decode($response);
     }
 
     /**
