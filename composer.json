@@ -1,6 +1,6 @@
 {
     "name": "coyote/dog-api",
-    "description": "My first Composer project",
+    "description": "Simple module to get pictures of dogs",
     "authors": [
         {
             "name": "Colin Bell",
