@@ -44,7 +44,7 @@ class DogApi
         if ($returnedResponse->status == "success") {
             return $returnedResponse->message;
         } else {
-            return "ERROR: ". $returnedResponse->message;
+            return $returnedResponse;
         }
     }
 
@@ -56,21 +56,16 @@ class DogApi
      */
     public function byBreed($breed)
     {
+        $breed = strtolower($breed);
         $url = "https://dog.ceo/api/breed/" . $breed . "/images/random";
         $response = file_get_contents($url);
-        return $response;
         $returnedResponse = json_decode($response);
-        return $returnedResponse;
-            return $returnedResponse;
         if ($returnedResponse->status == "success") {
             return $returnedResponse->message;
         } else {
-            return $returnedResponse;
-            return "ERROR: " . $returnedResponse->message;
+            return "ERROR: No image found";
         }
-        return json_decode($response);
     }
-
 
 
     /**
@@ -79,8 +74,40 @@ class DogApi
      */
     public function bySubBreed($subBreed)
     {
-        // https://dog.ceo/api/breed/hound/list
-        // hhttps://dog.ceo/api/breed/hound/afghan/images/random
+        $subBreed = strtolower($subBreed);
+        $getMainBreed = $this->searchJson($this->allBreedsObject, $subBreed);
+        if ($getMainBreed == "") {
+            return "ERROR: Breed not found";
+        }
+        $url = "https://dog.ceo/api/breed/" . $getMainBreed . "/" . $subBreed . "/images/random";
+        $response = file_get_contents($url);
+        $returnedResponse = json_decode($response);
+        if ($returnedResponse->status == "success") {
+            return $returnedResponse->message;
+        } else {
+            return "ERROR: No image found";
+        }
+        return json_decode($response);
+    }
+
+    /**
+     * JSON search for the parent breed.
+     * e.g. "german" will return "pointer" - It will ONLY return the first sub-breed is found
+     *
+     * @param  type $obj
+     * @param  type $value
+     * @return type
+     */
+    private function searchJson($obj, $value)
+    {
+        foreach ($obj as $key => $item) {
+            if (!is_nan(intval($key)) && is_array($item)) {
+                if (in_array($value, $item)) {
+                    return $key;
+                }
+            }
+        }
+        return null;
     }
 
 }
