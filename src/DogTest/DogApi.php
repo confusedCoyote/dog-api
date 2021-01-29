@@ -5,7 +5,6 @@ namespace DogTest;
 /**
  *  Class to run the Dog API.
  *  All, except, allBreeds() will just return a url where allBreeds() will return a JSON array
- * 
  */
 class DogApi
 {
@@ -24,8 +23,7 @@ class DogApi
     public function __construct()
     {
         $response = file_get_contents('https://dog.ceo/api/breeds/list/all');
-        $message = json_decode($response)->message;
-        $this->allBreedsObject = $message;
+        $this->allBreedsObject = json_decode($response)->message;
     }
 
     /**
@@ -81,7 +79,7 @@ class DogApi
      * Grab a, random, image from a requested sub breed. This will only show one of the possible sub-breeds that
      * could be found
      *
-     * @param string $subBreed Sub breed requested
+     * @param  string $subBreed Sub breed requested
      * @return string URL found
      */
     public function bySubBreed($subBreed)
@@ -105,15 +103,15 @@ class DogApi
      * JSON search for the parent breed.
      * e.g. "german" will return "pointer" - It will ONLY return the first sub-breed is found
      *
-     * @param  type $obj
-     * @param  type $value
+     * @param  object $haystack Array to be searched
+     * @param  string $needle   Search string
      * @return type
      */
-    private function searchJson($obj, $value)
+    private function searchJson($haystack, $needle)
     {
-        foreach ($obj as $key => $item) {
+        foreach ($haystack as $key => $item) {
             if (!is_nan(intval($key)) && is_array($item)) {
-                if (in_array($value, $item)) {
+                if (in_array($needle, $item)) {
                     return $key;
                 }
             }
