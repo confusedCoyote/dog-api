@@ -54,7 +54,7 @@ class DogApi
         if ($returnedResponse->status == "success") {
             return $returnedResponse->message;
         } else {
-            return $returnedResponse;
+            return "ERROR: No image found";
         }
     }
 

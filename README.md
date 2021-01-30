@@ -23,7 +23,7 @@ composer install
 - Image by breed (`$dogCeo->byBreed('pointer')`)
 - Image by sub-breed (`$dogCeo->bySubBreed('german')`)
  
-A RESTful API is available at [dog ceo](https://dog.ceo/) which will provide you with all the data that you will need. You do not need to create an account nor authenticate in order to consume the API, however please be aware that this API is rate-limited.
+A RESTful API is available at [dog ceo](https://dog.ceo/) which provides all the data required. You do not need to create an account nor authenticate in order to consume the API, however please be aware that this API is rate-limited.
 
 ## Tests
 
@@ -32,4 +32,5 @@ A RESTful API is available at [dog ceo](https://dog.ceo/) which will provide you
 ## Notes
 
 - Functions that return an image are only returned as a text link and *not* as an IMG tag. This then can be styled via CSS & inserted into a page
+- Error return strings all start with **ERROR** 
 - Other data is returned as a JSON array than then can be handled via JavaScript / jQuery / PHP in a consistent way.
