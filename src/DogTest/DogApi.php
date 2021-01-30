@@ -5,6 +5,7 @@ namespace DogTest;
 /**
  *  Class to run the Dog API.
  *  All, except, allBreeds() will just return a url where allBreeds() will return a JSON array
+ *  API documentation at https://dog.ceo/dog-api/documentation/
  */
 class DogApi
 {
@@ -22,7 +23,9 @@ class DogApi
      */
     public function __construct()
     {
-        $response = file_get_contents('https://dog.ceo/api/breeds/list/all');
+        $url = 'https://dog.ceo/api/breeds/list/all';
+        $response = $this->getViaCurl($url);
+        // We just need the message body of the JSON return
         $this->allBreedsObject = json_decode($response)->message;
     }
 
@@ -45,7 +48,8 @@ class DogApi
      */
     public function random()
     {
-        $response = file_get_contents('https://dog.ceo/api/breeds/image/random');
+        $url = 'https://dog.ceo/api/breeds/image/random';
+        $response = $this->getViaCurl($url);
         $returnedResponse = json_decode($response);
         if ($returnedResponse->status == "success") {
             return $returnedResponse->message;
@@ -65,7 +69,7 @@ class DogApi
     {
         $breed = strtolower($breed); // Has to be lower case otherwise we get a 404!
         $url = "https://dog.ceo/api/breed/" . $breed . "/images/random";
-        $response = file_get_contents($url);
+        $response = $this->getViaCurl($url);
         $returnedResponse = json_decode($response);
         if ($returnedResponse->status == "success") {
             return $returnedResponse->message;
@@ -90,13 +94,35 @@ class DogApi
             return "ERROR: Breed not found";
         }
         $url = "https://dog.ceo/api/breed/" . $getMainBreed . "/" . $subBreed . "/images/random";
-        $response = file_get_contents($url);
+        $response = $this->getViaCurl($url);
         $returnedResponse = json_decode($response);
         if ($returnedResponse->status == "success") {
             return $returnedResponse->message;
         } else {
             return "ERROR: No image found";
         }
+    }
+
+
+    /**
+     * Get the data from the API endpoint via cURL
+     *
+     * @param  string $url The URL endpoint
+     * @return boolean|string
+     */
+    private function getViaCurl($url)
+    {
+        $curl_handle = curl_init();
+        curl_setopt($curl_handle, CURLOPT_URL, $url);
+        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false); // Ignore any SSL issues
+        $buffer = curl_exec($curl_handle);
+        curl_close($curl_handle);
+        if (empty($buffer)) {
+            return false;
+        }
+        return $buffer;
     }
 
     /**
